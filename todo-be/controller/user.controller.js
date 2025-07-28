@@ -17,14 +17,16 @@ userController.creatUser = async (req, res) => {
     await newUser.save();
     res.status(200).json({ status: "success" });
   } catch (error) {
-    res.status(400).json({ status: "fail", error });
+    res
+      .status(400)
+      .json({ status: "fail", error: error.message || "알 수 없는 오류" });
   }
 };
 
 userController.loginWithEmail = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email },"-createdAt -updatedAt -__v ");
+    const user = await User.findOne({ email }, "-createdAt -updatedAt -__v ");
     if (user) {
       const isMatch = bcrypt.compareSync(password, user.password);
       if (isMatch) {
