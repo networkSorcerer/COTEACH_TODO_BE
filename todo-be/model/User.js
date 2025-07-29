@@ -23,6 +23,8 @@ const userSchema = Schema(
 userSchema.methods.toJSON = function () {
   const obj = this._doc;
   delete obj.password;
+  delete obj.updateAt;
+  delete obj.__v;
   return obj;
 };
 userSchema.methods.generateToke = function () {
