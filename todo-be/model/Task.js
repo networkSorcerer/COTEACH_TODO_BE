@@ -5,12 +5,13 @@ const taskSchema = Schema(
   {
     task: {
       type: String,
-      require: true,
+      required: true,
     },
     isComplete: {
       type: Boolean,
-      require: true,
+      required: true,
     },
+    author: { type: Schema.Types.ObjectId, required: true },
   },
   { timestamps: true }
 );
