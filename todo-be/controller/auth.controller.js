@@ -1,4 +1,5 @@
 const authController = {};
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 authController.authenticate = (req, res, next) => {
@@ -8,15 +9,9 @@ authController.authenticate = (req, res, next) => {
       throw new Error("invalid token");
     }
     const token = tokenString.replace("Bearer ", "");
-    jwt.verify(token, JWT_SECRET_KEY, (error, payload) => {
-      if (error) {
-        throw new Error("invalid token");
-      }
-      // res.status(200).json({ status: "success", userId: payload._id });
-      req.userId = payload._id;
-      console.log("payload???", payload);
-    });
-
+    const payload = jwt.verify(token, JWT_SECRET_KEY); // ✅ 동기 방식
+    req.userId = payload._id;
+    console.log("야 이눔이 req에 userId 제대로 넣고 다니니? ", req.userId);
     next();
   } catch (error) {
     res.status(400).json({ status: "fail", message: error.message });

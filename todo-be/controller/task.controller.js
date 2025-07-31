@@ -3,7 +3,8 @@ const taskController = {};
 taskController.createTask = async (req, res) => {
   try {
     const { task, isComplete } = req.body;
-    const { userId } = req;
+    const userId = req.userId;
+    console.log("create Task 에서 유저 정보를 저장 하는 겨? ", userId);
     const newTask = new Task({ task, isComplete, author: userId });
     await newTask.save();
     res.status(200).json({ status: "ok", data: newTask });
